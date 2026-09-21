@@ -10,11 +10,11 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "students")
 public class Student {
-    Student() {
+    public Student() {
 
     };
 
-    Student(String firstName, String lastName, String email, String studentCode) {
+    public Student(String firstName, String lastName, String email, String studentCode) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
