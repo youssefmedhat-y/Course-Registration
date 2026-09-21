@@ -38,6 +38,13 @@ public class Instructor {
         this.courses = courses;
     }
 
+    public Instructor(String firstName, String lastName, String email, String department) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.department = department;
+    }
+
     public Long getId() {
         return id;
     }

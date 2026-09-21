@@ -45,7 +45,11 @@ com.project.course_reg
 │   ├── Enrollment.java          # Phase 4 ✅
 │   └── EnrollmentStatus.java    # Phase 4 ✅
 ├── exception/                   # Custom exceptions + global handler (Phase 11)
-├── mapper/                      # Manual DTO mappers (Phase 9) 🔄
+├── mapper/                      # Manual DTO mappers (Phase 9) ✅
+│   ├── StudentMapper.java       # ✅
+│   ├── InstructorMapper.java    # ✅
+│   ├── CourseMapper.java        # ✅
+│   └── EnrollmentMapper.java    # ✅
 ├── repository/                  # Spring Data JPA repositories (Phase 5) ✅
 │   ├── StudentRepository.java   # ✅
 │   ├── InstructorRepository.java# ✅
@@ -91,7 +95,7 @@ Student    ──< Enrollment >── Course   (join table via Enrollment entity
 | 6 | Services | ✅ Completed |
 | 7 | REST Controllers | ✅ Completed |
 | 8 | DTOs | ✅ Completed |
-| 9 | Manual Mappers | 🔄 In Progress |
+| 9 | Manual Mappers | ✅ Completed |
 | 10 | Validation | ⬜ |
 | 11 | Global Exception Handling | ⬜ |
 | 12 | HTTP Responses | ⬜ |
