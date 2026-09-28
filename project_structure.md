@@ -96,7 +96,7 @@ Student    ──< Enrollment >── Course   (join table via Enrollment entity
 | 7 | REST Controllers | ✅ Completed |
 | 8 | DTOs | ✅ Completed |
 | 9 | Manual Mappers | ✅ Completed |
-| 10 | Validation | ⬜ |
+| 10 | Validation | ✅ Completed |
 | 11 | Global Exception Handling | ⬜ |
 | 12 | HTTP Responses | ⬜ |
 | 13 | Pagination / Sorting / Searching | ⬜ |
