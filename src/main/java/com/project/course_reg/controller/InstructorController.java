@@ -12,8 +12,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.project.course_reg.entity.Instructor;
+import com.project.course_reg.dto.request.InstructorRequest;
+import com.project.course_reg.dto.response.InstructorResponse;
 import com.project.course_reg.service.InstructorService;
+
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/instructors")
@@ -25,20 +28,20 @@ public class InstructorController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Instructor>> getAllInstructors() {
-        List<Instructor> instructors = instructorService.getAllInstructors();
+    public ResponseEntity<List<InstructorResponse>> getAllInstructors() {
+        List<InstructorResponse> instructors = instructorService.getAllInstructors();
         return ResponseEntity.ok(instructors);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Instructor> getInstructorById(@PathVariable Long id) {
-        Instructor instructor = instructorService.getInstructorById(id);
+    public ResponseEntity<InstructorResponse> getInstructorById(@PathVariable Long id) {
+        InstructorResponse instructor = instructorService.getInstructorById(id);
         return ResponseEntity.ok(instructor);
     }
 
     @PostMapping
-    public ResponseEntity<Instructor> createInstructor(@RequestBody Instructor instructor) {
-        Instructor createdInstructor = instructorService.createInstructor(instructor);
+    public ResponseEntity<InstructorResponse> createInstructor(@Valid @RequestBody InstructorRequest instructor) {
+        InstructorResponse createdInstructor = instructorService.createInstructor(instructor);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdInstructor);
     }
 
