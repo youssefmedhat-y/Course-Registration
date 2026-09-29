@@ -13,7 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.project.course_reg.entity.Course;
+import com.project.course_reg.dto.request.CourseRequest;
+import com.project.course_reg.dto.response.CourseResponse;
 import com.project.course_reg.service.CourseService;
 
 import jakarta.validation.Valid;
@@ -29,7 +30,7 @@ public class CourseController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Course>> getAllCourses(@RequestParam(required = false) Long id) {
+    public ResponseEntity<List<CourseResponse>> getAllCourses(@RequestParam(required = false) Long id) {
         if (id != null) {
             return ResponseEntity.ok(courseService.getCourseByInstructorId(id));
         }
@@ -37,16 +38,15 @@ public class CourseController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Course> getCourseById(@PathVariable Long id) {
-        Course course = courseService.getCourseById(id);
+    public ResponseEntity<CourseResponse> getCourseById(@PathVariable Long id) {
+        CourseResponse course = courseService.getCourseById(id);
         return ResponseEntity.ok(course);
     }
 
     @PostMapping
-    public ResponseEntity<Course> createCourse(
-            @RequestBody Course course,
+    public ResponseEntity<CourseResponse> createCourse(@Valid @RequestBody CourseRequest courseRequest,
             @RequestParam Long instructorId) {
-        Course createdCourse = courseService.createCourse(course, instructorId);
+        CourseResponse createdCourse = courseService.createCourse(courseRequest, instructorId);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdCourse);
     }
 

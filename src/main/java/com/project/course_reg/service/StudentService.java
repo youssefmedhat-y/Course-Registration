@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 
 import com.project.course_reg.dto.request.StudentRequest;
 import com.project.course_reg.dto.response.StudentResponse;
-import com.project.course_reg.entity.Student;
 import com.project.course_reg.mapper.StudentMapper;
 import com.project.course_reg.repository.StudentRepository;
 

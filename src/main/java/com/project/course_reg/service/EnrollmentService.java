@@ -5,10 +5,13 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.project.course_reg.dto.request.EnrollmentRequest;
+import com.project.course_reg.dto.response.EnrollmentResponse;
 import com.project.course_reg.entity.Course;
 import com.project.course_reg.entity.Enrollment;
 import com.project.course_reg.entity.EnrollmentStatus;
 import com.project.course_reg.entity.Student;
+import com.project.course_reg.mapper.EnrollmentMapper;
 import com.project.course_reg.repository.CourseRepository;
 import com.project.course_reg.repository.EnrollmentRepository;
 import com.project.course_reg.repository.StudentRepository;
@@ -18,15 +21,19 @@ public class EnrollmentService {
     private final EnrollmentRepository enrollmentRepository;
     private final CourseRepository courseRepository;
     private final StudentRepository studentRepository;
+    private final EnrollmentMapper enrollmentMapper;
 
     public EnrollmentService(EnrollmentRepository enrollmentRepository, CourseRepository courseRepository,
-            StudentRepository studentRepository) {
+            StudentRepository studentRepository, EnrollmentMapper enrollmentMapper) {
         this.enrollmentRepository = enrollmentRepository;
         this.courseRepository = courseRepository;
         this.studentRepository = studentRepository;
+        this.enrollmentMapper = enrollmentMapper;
     }
 
-    public Enrollment enrollStudent(Long studentId, Long courseId) {
+    public EnrollmentResponse enrollStudent(EnrollmentRequest enrollmentRequest) {
+        Long studentId = enrollmentRequest.studentId();
+        Long courseId = enrollmentRequest.courseId();
         Student student = studentRepository.findById(studentId)
                 .orElseThrow(() -> new RuntimeException(
                         "No Student found with id: " + studentId));
@@ -59,29 +66,29 @@ public class EnrollmentService {
         enrollment.setCourse(course);
         enrollment.setStatus(EnrollmentStatus.ENROLLED);
         enrollment.setEnrollmentDate(LocalDateTime.now());
-        return enrollmentRepository.save(enrollment);
+        return enrollmentMapper.toResponse(enrollmentRepository.save(enrollment));
     }
 
-    public Enrollment cancelEnrollment(Long enrollmentId) {
+    public EnrollmentResponse cancelEnrollment(Long enrollmentId) {
         Enrollment enrollment = enrollmentRepository.findById(enrollmentId)
                 .orElseThrow(() -> new RuntimeException("No enrollment found with this ID :" + enrollmentId));
         enrollment.setStatus(EnrollmentStatus.CANCELLED);
-        return enrollmentRepository.save(enrollment);
+        return enrollmentMapper.toResponse(enrollmentRepository.save(enrollment));
     }
 
-    public List<Enrollment> getEnrollmentsByStudentId(Long studentId) {
-        return enrollmentRepository.findByStudentId(studentId);
+    public List<EnrollmentResponse> getEnrollmentsByStudentId(Long studentId) {
+        return enrollmentRepository.findByStudentId(studentId).stream().map(enrollmentMapper::toResponse).toList();
     }
 
-    public List<Enrollment> getEnrollmentsByCourseId(Long courseId) {
+    public List<EnrollmentResponse> getEnrollmentsByCourseId(Long courseId) {
         if (!courseRepository.existsById(courseId)) {
             throw new RuntimeException("No Course found with this Id" + courseId);
         }
-        return enrollmentRepository.findByCourseId(courseId);
+        return enrollmentRepository.findByCourseId(courseId).stream().map(enrollmentMapper::toResponse).toList();
     }
 
-    public Enrollment getEnrollmentById(Long enrollmentId) {
-        return enrollmentRepository.findById(enrollmentId)
+    public EnrollmentResponse getEnrollmentById(Long enrollmentId) {
+        return enrollmentRepository.findById(enrollmentId).map(enrollmentMapper::toResponse)
                 .orElseThrow(() -> new RuntimeException("No enrollment found with this ID: " + enrollmentId));
     }
 
